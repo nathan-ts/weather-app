@@ -22,3 +22,9 @@ Run site in dev mode: `npm start`
 
 Create production build: `npm run build`
 
+## Tech Stack
+
+- [React.js](https://reactjs.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [OpenWeather API](https://openweathermap.org/api)
+- [Unsplash API](https://unsplash.com/developers)
