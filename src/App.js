@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 
 import Link from "./components/Link";
+import WeatherData from "./components/WeatherData";
 
 function App() {
   // States
@@ -80,7 +81,7 @@ function App() {
             "
           />
           <button className="location_searcher
-          
+            p-2 text-white bg-black border-0 rounded-md m-x-2
             " 
             onClick={getWeatherImage}
           >
@@ -91,9 +92,10 @@ function App() {
           <p className="temperature
             m-1.5 text-slate-800
           ">
-            Current Temparature: {weather?.main?.temp}
+            Current Temparature: {Math.round(weather?.main?.temp)} &deg;C
           </p>
         </div>
+        <WeatherData data={weather} />
         <img className="app__image
           h-1/2 max-h-96 w-auto rounded-lg
           " 
@@ -102,24 +104,10 @@ function App() {
         <div className="credits">
           <p>
             Photo by&nbsp;
-            {/* <a className="underline" 
-              target="_blank"
-              rel="noreferrer"
-              href={`https://unsplash.com/@${photographer.username}?utm_source=weather_app&utm_medium=referral`}
-            >
-              {photographer.name}
-            </a> */}
-            <Link url={`https://unsplash.com/@${photographer.username}?utm_source=weather_app&utm_medium=referral`}>
-              {photographer.name}
+            <Link url={`https://unsplash.com/@${photographer?.username}?utm_source=weather_app&utm_medium=referral`}>
+              {photographer?.name}
             </Link>
             &nbsp;on&nbsp;
-            {/* <a className="underline" 
-              target="_blank"
-              rel="noreferrer"
-              href={`https://unsplash.com/?utm_source=weather_app&utm_medium=referral`}
-            >
-              Unsplash
-            </a> */}
             <Link url={`https://unsplash.com/?utm_source=weather_app&utm_medium=referral`}>
               Unsplash
             </Link>
