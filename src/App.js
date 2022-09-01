@@ -59,32 +59,64 @@ function App() {
   }
 
   return (
-    <div className="app">
-      <div className="wrapper">
+    <div className={`app 
+      flex flex-col justify-center items-center
+      min-h-screen w-screen
+      bg-slate-400
+    `}>
+      <div className="wrapper
+      
+      ">
         <div className="search">
           <input
             type="text"
             value={locations}
             onChange={(e) => setLocations(e.target.value)}
             placeholder="Enter location"
-            className="location_input"
+            className="location_input
+              p-2 
+              border border-solid border-gray-700
+              rounded-md
+            "
           />
-          <button className="location_searcher" onClick={getWeatherImage}>
+          <button className="location_searcher
+          
+            " 
+            onClick={getWeatherImage}
+          >
             Search Location
           </button>
         </div>
         <div className="app__data">
-          <p className="temp">Current Temparature: {weather?.main?.temp}</p>
+          <p className="temperature
+            m-1.5 text-slate-800
+          ">
+            Current Temparature: {weather?.main?.temp}
+          </p>
         </div>
-        <img className="app__image" src={photos} alt="" />
+        <img className="app__image
+          h-1/2 max-h-96 w-auto rounded-lg
+          " 
+          src={photos} alt="" 
+        />
         <div className="credits">
           <p>
-            Photo by 
-            <a href={`https://unsplash.com/@${photographer.username}?utm_source=weather_app&utm_medium=referral`}>
+            Photo by&nbsp;
+            <a className="underline" 
+              target="_blank"
+              rel="noreferrer"
+              href={`https://unsplash.com/@${photographer.username}?utm_source=weather_app&utm_medium=referral`}
+            >
               {photographer.name}
             </a>
-            on 
-            <a href="https://unsplash.com/?utm_source=weather_app&utm_medium=referral">Unsplash</a>
+            &nbsp;on&nbsp;
+            <a className="underline" 
+              target="_blank"
+              rel="noreferrer"
+              href={`https://unsplash.com/?utm_source=weather_app&utm_medium=referral`}
+            >
+              Unsplash
+            </a>
           </p>
         </div>
       </div>
