@@ -3,25 +3,28 @@ import "./App.css";
 
 import Link from "./components/Link";
 import WeatherData from "./components/WeatherData";
+import SearchBar from "./components/SearchBar";
 
 function App() {
   // States
   const [weather, setWeather] = useState({});
-  const [locations, setLocations] = useState("toronto");
+  const [location, setLocation] = useState("toronto");
   const [photo, setPhoto] = useState([]);
   const [cloud, setCloud] = useState([]);
-  // const [photographer, setPhotographer] = useState([]);
 
 
   // Run getWeatherImage once on component load
   useEffect(() => {
     getWeatherImage();
+    getBackgroundImage();
   }, []);
 
   // Method to get weather and image in two calls
   function getWeatherImage() {
+    // https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Promises
+
     fetch(
-      `http://api.openweathermap.org/data/2.5/weather?q=${locations}&appid=${process.env.REACT_APP_WEATHER}&units=metric`
+      `http://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${process.env.REACT_APP_WEATHER}&units=metric`
     )
       .then((res) => {
         if (res.ok) {
@@ -40,7 +43,7 @@ function App() {
       })
       .catch((error) => console.log(error));
     fetch(
-      `https://api.unsplash.com/search/photos?query=${locations}&client_id=${process.env.REACT_APP_UNSPLASH}`
+      `https://api.unsplash.com/search/photos?query=${location}&client_id=${process.env.REACT_APP_UNSPLASH}`
     )
       .then((res) => {
         if (res.ok) {
@@ -56,38 +59,38 @@ function App() {
           name: data?.results[0]?.user?.name,
           username: data?.results[0]?.user?.username,
         });
-        // setPhotographer({
-        //   name: data?.results[0]?.user?.name,
-        //   username: data?.results[0]?.user?.username,
-        // });
       })
       .catch((error) => console.log(error));
-    // fetch(
-    //   `https://api.unsplash.com/search/photos?query=cloud&client_id=${process.env.REACT_APP_UNSPLASH}`
-    // )
-    //   .then((res) => {
-    //     if (res.ok) {
-    //       return res.json();
-    //     } else {
-    //       throw new Error("Error occurred when fetching image");
-    //     }
-    //   })
-    //   .then((data) => {
-    //     console.log('Unsplash API returned:', data);
-    //     setCloud(data?.results[0]?.urls?.raw);
-    //     setPhotographer({
-    //       name: data?.results[0]?.user?.name,
-    //       username: data?.results[0]?.user?.username,
-    //     });
-    //   })
-    //   .catch((error) => console.log(error));
+  }
+
+  function getBackgroundImage() {
+    fetch(
+      `https://api.unsplash.com/search/photos?query=cloud&client_id=${process.env.REACT_APP_UNSPLASH}`
+    )
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw new Error("Error occurred when fetching background image");
+        }
+      })
+      .then((data) => {
+        console.log('Unsplash API CLOUD returned:', data);
+        setCloud({
+          img: data?.results[0]?.urls?.raw,
+          name: data?.results[0]?.user?.name,
+          username: data?.results[0]?.user?.username,
+        });
+      })
+      .catch((error) => console.log(error));
   }
 
   return (
-    <div className={`app 
+    <div 
+    style={{backgroundImage: `url(${cloud?.img})`}}
+      className={`app 
       flex flex-col justify-center items-center
       min-h-screen w-screen
-      bg-gradient-to-br from-slate-300 to-blue-400
     `}>
       <div className="wrapper
         p-6 m-12
@@ -103,8 +106,8 @@ function App() {
         <div className="search">
           <input
             type="text"
-            value={locations}
-            onChange={(e) => setLocations(e.target.value)}
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
             placeholder="Enter location"
             className="location_input
               p-2 
@@ -120,13 +123,7 @@ function App() {
             Search Location
           </button>
         </div>
-        {/* <div className="app__data">
-          <p className="temperature
-            m-1.5 text-slate-800
-          ">
-            Current Temparature: {Math.round(weather?.main?.temp)} &deg;C
-          </p>
-        </div> */}
+        <SearchBar getWeatherImage={getWeatherImage} location={location} setLocation={setLocation} />
         <WeatherData weather={weather} />
         <img className="app__image
           w-auto 
@@ -135,7 +132,7 @@ function App() {
           " 
           src={photo?.img} alt="" 
         />
-        <div className="credits text-base text-slate-700">
+        <div className="credits pt-2 text-sm text-slate-500">
           <p>
             Photo by&nbsp;
             <Link url={`https://unsplash.com/@${photo?.username}?utm_source=weather_app&utm_medium=referral`}>
