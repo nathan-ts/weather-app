@@ -1,7 +1,7 @@
-// import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
 import React, { useState, useEffect } from "react";
 import "./App.css";
-// dotenv.config();
+
+import Link from "./components/Link";
 
 function App() {
   // States
@@ -102,21 +102,27 @@ function App() {
         <div className="credits">
           <p>
             Photo by&nbsp;
-            <a className="underline" 
+            {/* <a className="underline" 
               target="_blank"
               rel="noreferrer"
               href={`https://unsplash.com/@${photographer.username}?utm_source=weather_app&utm_medium=referral`}
             >
               {photographer.name}
-            </a>
+            </a> */}
+            <Link url={`https://unsplash.com/@${photographer.username}?utm_source=weather_app&utm_medium=referral`}>
+              {photographer.name}
+            </Link>
             &nbsp;on&nbsp;
-            <a className="underline" 
+            {/* <a className="underline" 
               target="_blank"
               rel="noreferrer"
               href={`https://unsplash.com/?utm_source=weather_app&utm_medium=referral`}
             >
               Unsplash
-            </a>
+            </a> */}
+            <Link url={`https://unsplash.com/?utm_source=weather_app&utm_medium=referral`}>
+              Unsplash
+            </Link>
           </p>
         </div>
       </div>
