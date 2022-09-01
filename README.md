@@ -25,6 +25,7 @@ Create production build: `npm run build`
 ## Tech Stack
 
 - [React.js](https://reactjs.org/)
+- [Node.js V16](https://nodejs.org/dist/latest-v16.x/docs/api/)
 - [Tailwind CSS](https://tailwindcss.com/)
 - [OpenWeather API](https://openweathermap.org/api)
 - [Unsplash API](https://unsplash.com/developers)

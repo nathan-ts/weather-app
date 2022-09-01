@@ -66,7 +66,12 @@ function App() {
       bg-slate-400
     `}>
       <div className="wrapper
-      
+        p-6
+        border-0
+        rounded-xl
+        flex flex-col
+        w-2/5 h-auto
+        shadow-lg 
       ">
         <div className="search">
           <input
@@ -95,9 +100,9 @@ function App() {
             Current Temparature: {Math.round(weather?.main?.temp)} &deg;C
           </p>
         </div>
-        <WeatherData data={weather} />
+        <WeatherData weather={weather} />
         <img className="app__image
-          h-1/2 max-h-96 w-auto rounded-lg
+          w-auto rounded-lg
           " 
           src={photos} alt="" 
         />
