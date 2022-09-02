@@ -13,10 +13,11 @@ function App() {
   const [cloud, setCloud] = useState([]);
 
 
-  // Run getWeatherImage once on component load
+  // Run fetch and remove scroll bar on load
   useEffect(() => {
     getWeatherImage();
     getBackgroundImage();
+    document.body.style.overflow = "hidden";
   }, []);
 
   // Method to get weather and image in two calls
@@ -62,7 +63,7 @@ function App() {
         });
       })
       .catch((error) => console.log(error));
-  }
+  };
 
   function getBackgroundImage() {
     fetch(
@@ -85,26 +86,27 @@ function App() {
         });
       })
       .catch((error) => console.log(error));
-  }
+  };
 
   return (
     <div 
       style={{backgroundImage: `url(${cloud?.img})`}}
       className={`app 
-      flex flex-col justify-center items-center
-      min-h-screen w-screen
-      bg-center bg-cover
-    `}>
-      <div className="wrapper
-        p-6 m-12
-        border-0
+        flex flex-col justify-center items-center
+        min-h-screen w-screen
+        bg-center bg-cover
+        overflow-hidden
+      `}
+    >
+      <div className="card
+        p-12
         rounded-xl
-        flex flex-col
-        w-2/5 h-auto
-        max-h-fit
+        flex flex-col justify-center items-center
+        w-auto h-auto
+        max-h-screen
         shadow-2xl
-        bg-slate-300/25
-        backdrop-blur-2xl
+        bg-slate-200/25
+        backdrop-blur-xl
       ">
         <SearchBar getWeatherImage={getWeatherImage} location={location} setLocation={setLocation} />
         <WeatherData weather={weather} />

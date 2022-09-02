@@ -2,9 +2,13 @@ import Link from "./Link";
 
 export default function Hero(props) {
   return (
-    <>
+    <div className="flex flex-col justify-center items-center">
       <img className="app-img
-        w-auto 
+        object-cover
+        w-full
+        max-w-2xl
+        h-full
+        max-h-128
         rounded-lg
         saturate-150 " 
         src={props.photo?.img} alt="" 
@@ -21,6 +25,6 @@ export default function Hero(props) {
           </Link>
         </p>
       </div>
-    </>
+    </div>
   )
 };
