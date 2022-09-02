@@ -18,6 +18,7 @@ function App() {
     getWeatherImage();
     getBackgroundImage();
     document.body.style.overflow = "hidden";
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Method to get weather and image in two calls
