@@ -13,7 +13,6 @@ function App() {
   const [photo, setPhoto] = useState([]);
   const [cloud, setCloud] = useState([]);
 
-
   // Run fetch and remove scroll bar on load
   useEffect(() => {
     getWeatherImage();
