@@ -4,6 +4,7 @@ export default function SearchBar(props) {
       className="search 
         flex flex-row justify-between
         space-x-2
+        w-full
       " 
       onSubmit={(e) => {
         e.preventDefault();

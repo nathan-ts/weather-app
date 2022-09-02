@@ -105,8 +105,8 @@ function App() {
         w-auto h-auto
         max-h-screen
         shadow-2xl
-        bg-slate-200/25
-        backdrop-blur-xl
+        bg-slate-100/25
+        backdrop-blur-lg
       ">
         <SearchBar getWeatherImage={getWeatherImage} location={location} setLocation={setLocation} />
         <WeatherData weather={weather} />
