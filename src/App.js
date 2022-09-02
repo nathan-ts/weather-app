@@ -24,44 +24,31 @@ function App() {
 
   // Method to get weather and image in two calls
   function getWeatherImage() {
-    // https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Promises
-
-    fetch(
+    // Set up both promises (fetch API calls)
+    const fetchWeather = fetch(
       `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${process.env.REACT_APP_WEATHER}&units=metric`
-    )
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        } else {
-          if (res.status === 404) {
-            return alert("An error occurred - wrong location!");
-          }
-          alert("An error occurred!");
-          throw new Error("Error occurred when fetching weather");
-        }
-      })
-      .then((object) => {
-        console.log('OpenWeather API returned:', weather);
-        setWeather(object);
-      })
-      .catch((error) => console.log(error));
-    fetch(
+    );
+    const fetchUnsplash = fetch(
       `https://api.unsplash.com/search/photos?query=${location}&client_id=${process.env.REACT_APP_UNSPLASH}`
-    )
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
+    );
+    // Call Promise.all on both promises, progressing only if both resolve
+    Promise.all([fetchWeather, fetchUnsplash])
+      .then(([ weatherRes, unsplashRes ]) => {
+        if (weatherRes.ok && unsplashRes.ok) {
+          return Promise.all([ weatherRes.json(), unsplashRes.json() ]);
         } else {
-          throw new Error("Error occurred when fetching image");
+          throw new Error("Error occurred when fetching weather/unsplash");
         }
       })
-      .then((data) => {
-        console.log('Unsplash API returned:', data);
+      .then(([ weatherData, unsplashData ]) => {
+        console.log('OpenWeather API returned:', weatherData);
+        setWeather(weatherData);
+        console.log('Unsplash API returned:', unsplashData);
         const randImg = Math.floor(Math.random() * 10);
         setPhoto({
-          img: data?.results[randImg]?.urls?.raw,
-          name: data?.results[randImg]?.user?.name,
-          username: data?.results[randImg]?.user?.username,
+          img: unsplashData?.results[randImg]?.urls?.raw,
+          name: unsplashData?.results[randImg]?.user?.name,
+          username: unsplashData?.results[randImg]?.user?.username,
         });
       })
       .catch((error) => console.log(error));
