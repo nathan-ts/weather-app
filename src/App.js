@@ -4,6 +4,7 @@ import "./App.css";
 import WeatherData from "./components/WeatherData";
 import SearchBar from "./components/SearchBar";
 import Hero from "./components/Hero";
+import Credits from "./components/Credits";
 
 function App() {
   // States
@@ -26,7 +27,7 @@ function App() {
     // https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Promises
 
     fetch(
-      `http://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${process.env.REACT_APP_WEATHER}&units=metric`
+      `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${process.env.REACT_APP_WEATHER}&units=metric`
     )
       .then((res) => {
         if (res.ok) {
@@ -112,6 +113,9 @@ function App() {
         <SearchBar getWeatherImage={getWeatherImage} location={location} setLocation={setLocation} />
         <WeatherData weather={weather} />
         <Hero photo={photo} />
+      </div>
+      <div className="bg-credits fixed bottom-1 right-1 z-50">
+        <Credits photo={cloud}/>
       </div>
     </div>
   );

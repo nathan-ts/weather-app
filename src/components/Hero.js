@@ -1,4 +1,4 @@
-import Link from "./Link";
+import Credits from "./Credits";
 
 export default function Hero(props) {
   return (
@@ -13,7 +13,7 @@ export default function Hero(props) {
         saturate-150 " 
         src={props.photo?.img} alt="" 
       />
-      <div className="credits pt-2 text-sm text-slate-700">
+      {/* <div className="credits pt-2 text-sm text-slate-700">
         <p>
           Photo by&nbsp;
           <Link url={`https://unsplash.com/@${props.photo?.username}?utm_source=weather_app&utm_medium=referral`}>
@@ -24,7 +24,8 @@ export default function Hero(props) {
             Unsplash
           </Link>
         </p>
-      </div>
+      </div> */}
+      <Credits photo={props.photo}/>
     </div>
   )
 };
