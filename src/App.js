@@ -44,6 +44,7 @@ function App() {
         console.log('OpenWeather API returned:', weatherData);
         setWeather(weatherData);
         console.log('Unsplash API returned:', unsplashData);
+        // Get random image from index 0-9 (since API default is 10 results returned)
         const randImg = Math.floor(Math.random() * 10);
         setPhoto({
           img: unsplashData?.results[randImg]?.urls?.raw,
