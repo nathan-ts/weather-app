@@ -6,7 +6,9 @@ import {
   faAngleUp, 
   faDroplet,
   faPercent,
-  faLocationDot
+  faLocationDot, 
+  faComment, 
+  faWind
 } from '@fortawesome/free-solid-svg-icons'
 
 import Map from "./Map";
@@ -14,37 +16,37 @@ import Map from "./Map";
 export default function WeatherData(props) {
   // Set up state for opened or closed expanded weather data
   const [open, setOpen] = useState(false);
-  const [retrievedLoc, setRetrievedLoc] = useState("");
+  // const [retrievedLoc, setRetrievedLoc] = useState("");
 
   const temperature = props.weather?.main?.temp;
-  const lat = props.weather?.coord?.lat;
-  const lon = props.weather?.coord?.lon;
+  // const lat = props.weather?.coord?.lat;
+  // const lon = props.weather?.coord?.lon;
 
-  useEffect(() => {
-    getLocation(lat, lon);
+  // useEffect(() => {
+  //   getLocation(lat, lon);
   
-  }, [lat, lon]);
+  // }, [lat, lon]);
 
   // Fetch OpenWeather's name of city based on actual weather data found
-  function getLocation(lat, lon) {
-    fetch(
-      `https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&${lon}&limit=1&appid=${process.env.REACT_APP_WEATHER}`
-    )
-      .then((locationRes) => {
-        console.log("Location data first", locationRes)
-        if (locationRes.ok) {
-          return locationRes.json();
-        } else {
-          throw new Error("Error occurred when fetching location name");
-        }
-      })
-      .then((locationData) => {
-        console.log("Location data:", locationData);
-        setRetrievedLoc(locationData[0]?.name);
-      })
-      .catch((error) => console.log(error));
+  // function getLocation(lat, lon) {
+  //   fetch(
+  //     `https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&${lon}&limit=1&appid=${process.env.REACT_APP_WEATHER}`
+  //   )
+  //     .then((locationRes) => {
+  //       console.log("Location data first", locationRes)
+  //       if (locationRes.ok) {
+  //         return locationRes.json();
+  //       } else {
+  //         throw new Error("Error occurred when fetching location name");
+  //       }
+  //     })
+  //     .then((locationData) => {
+  //       console.log("Location data:", locationData);
+  //       setRetrievedLoc(locationData[0]?.name);
+  //     })
+  //     .catch((error) => console.log(error));
 
-  }
+  // }
 
   // Conditional return based on whether or not weather data is loaded
   if (typeof temperature !== 'number' || Number.isNaN(temperature)) {
@@ -80,15 +82,26 @@ export default function WeatherData(props) {
       {open &&
       <div className="app-data-expanded
         pb-6 w-full
+        space-x-5
         text-black text-lg font-medium
         flex flex-row justify-center items-center
       ">
-        <div className="temperature-expanded">
+        <div className="location">
           <FontAwesomeIcon icon={faLocationDot} />&nbsp;
-          {retrievedLoc}
+          {props.weather?.name}
+        </div>
+        <div className="humidity">
           <FontAwesomeIcon icon={faDroplet} />&nbsp;
           {Math.round(props.weather?.main?.humidity)}&nbsp;
           <FontAwesomeIcon icon={faPercent} />
+        </div>
+        <div className="wind-speed">
+          <FontAwesomeIcon icon={faWind} />&nbsp;
+          {Math.round(props.weather?.wind?.speed * 3.6)} km/h
+        </div>
+        <div className="feels-like">
+          <FontAwesomeIcon icon={faComment} />&nbsp;
+          {props.weather?.weather[0]?.description}
         </div>
       </div>
       }
