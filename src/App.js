@@ -108,25 +108,6 @@ function App() {
       ">
         <SearchBar getWeatherImage={getWeatherImage} location={location} setLocation={setLocation} />
         <WeatherData weather={weather} />
-        {/* <img className="app__image
-          w-auto 
-          rounded-lg
-          saturate-150
-          " 
-          src={photo?.img} alt="" 
-        />
-        <div className="credits pt-2 text-sm text-slate-500">
-          <p>
-            Photo by&nbsp;
-            <Link url={`https://unsplash.com/@${photo?.username}?utm_source=weather_app&utm_medium=referral`}>
-              {photo?.name}
-            </Link>
-            &nbsp;on&nbsp;
-            <Link url={`https://unsplash.com/?utm_source=weather_app&utm_medium=referral`}>
-              Unsplash
-            </Link>
-          </p>
-        </div> */}
         <Hero photo={photo} />
       </div>
     </div>

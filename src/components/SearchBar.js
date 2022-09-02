@@ -1,6 +1,10 @@
 export default function SearchBar(props) {
   return (
-    <form className="search" 
+    <form 
+      className="search 
+        flex flex-row justify-between
+        space-x-2
+      " 
       onSubmit={(e) => {
         e.preventDefault();
         props.getWeatherImage();
@@ -12,15 +16,20 @@ export default function SearchBar(props) {
         onChange={(e) => props.setLocation(e.target.value)}
         placeholder="Enter location"
         className="location_input
+          grow
           p-2 
-          border border-solid border-gray-700
           rounded-md
+          border border-solid border-gray-700
+          bg-gray-200/40
         "
       />
       <input type="submit" 
         className="location_searcher
-        p-2 text-white bg-black border-0 rounded-md m-x-2" 
-        // onClick={props.getWeatherImage}
+          p-2 
+          text-white 
+          bg-black/75
+          border-0 rounded-md m-x-2
+        " 
         value="Search Location"
       />
   </form>

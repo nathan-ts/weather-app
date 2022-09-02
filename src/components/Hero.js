@@ -6,8 +6,7 @@ export default function Hero(props) {
       <img className="app-img
         w-auto 
         rounded-lg
-        saturate-150
-        " 
+        saturate-150 " 
         src={props.photo?.img} alt="" 
       />
       <div className="credits pt-2 text-sm text-slate-700">
