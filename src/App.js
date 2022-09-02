@@ -49,6 +49,7 @@ function App() {
           img: unsplashData?.results[randImg]?.urls?.raw,
           name: unsplashData?.results[randImg]?.user?.name,
           username: unsplashData?.results[randImg]?.user?.username,
+          alt_description: unsplashData?.results[randImg]?.user?.alt_description,
         });
       })
       .catch((error) => console.log(error));
@@ -65,13 +66,13 @@ function App() {
           throw new Error("Error occurred when fetching background image");
         }
       })
-      .then((data) => {
-        console.log('Unsplash API CLOUD returned:', data);
+      .then((cloudData) => {
+        console.log('Unsplash API CLOUD returned:', cloudData);
         const randImg = Math.floor(Math.random() * 10);
         setCloud({
-          img: data?.results[randImg]?.urls?.raw,
-          name: data?.results[randImg]?.user?.name,
-          username: data?.results[randImg]?.user?.username,
+          img: cloudData?.results[randImg]?.urls?.raw,
+          name: cloudData?.results[randImg]?.user?.name,
+          username: cloudData?.results[randImg]?.user?.username,
         });
       })
       .catch((error) => console.log(error));

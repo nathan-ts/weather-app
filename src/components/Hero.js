@@ -6,12 +6,12 @@ export default function Hero(props) {
       <img className="app-img
         object-cover
         w-full
-        max-w-2xl
+        max-w-3xl
         h-full
         max-h-128
         rounded-lg
         saturate-150 " 
-        src={props.photo?.img} alt="" 
+        src={props.photo?.img} alt={props.photo?.alt_description} 
       />
       {/* <div className="credits pt-2 text-sm text-slate-700">
         <p>

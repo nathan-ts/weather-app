@@ -8,7 +8,7 @@ export default function WeatherData(props) {
           py-6 px-auto
           text-black text-3xl
         ">
-          Current Temparature: {Math.round(props.weather?.main?.temp)} &deg;C
+          Current Temperature: {Math.round(props.weather?.main?.temp)} &deg;C
         </p>
       </div>
     )
