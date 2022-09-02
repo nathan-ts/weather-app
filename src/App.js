@@ -46,7 +46,7 @@ function App() {
         // Get random image from index 0-9 (since API default is 10 results returned)
         const randImg = Math.floor(Math.random() * 10);
         setPhoto({
-          img: unsplashData?.results[randImg]?.urls?.raw,
+          img: unsplashData?.results[randImg]?.urls?.raw + "&w=800",
           name: unsplashData?.results[randImg]?.user?.name,
           username: unsplashData?.results[randImg]?.user?.username,
           alt_description: unsplashData?.results[randImg]?.user?.alt_description,
@@ -70,7 +70,7 @@ function App() {
         console.log('Unsplash API CLOUD returned:', cloudData);
         const randImg = Math.floor(Math.random() * 10);
         setCloud({
-          img: cloudData?.results[randImg]?.urls?.raw,
+          img: cloudData?.results[randImg]?.urls?.raw + "&w=2160",
           name: cloudData?.results[randImg]?.user?.name,
           username: cloudData?.results[randImg]?.user?.username,
         });
