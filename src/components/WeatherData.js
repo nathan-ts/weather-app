@@ -59,7 +59,7 @@ export default function WeatherData(props) {
       ">
         <div className="location">
           <FontAwesomeIcon icon={faLocationDot} />&nbsp;
-          {props.weather?.name}
+          {props.weather?.name}, {props.weather?.sys?.country}
         </div>
         <div className="humidity">
           <FontAwesomeIcon icon={faDroplet} />&nbsp;
