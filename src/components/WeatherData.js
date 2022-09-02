@@ -2,7 +2,8 @@ export default function WeatherData(props) {
   return (
     <div className="app__data">
       <p className="temperature
-        m-1.5 text-slate-800
+        py-2
+        text-black text-xl
       ">
         Current Temparature: {Math.round(props.weather?.main?.temp)} &deg;C
       </p>

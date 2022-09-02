@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 
-// import Link from "./components/Link";
 import WeatherData from "./components/WeatherData";
 import SearchBar from "./components/SearchBar";
 import Hero from "./components/Hero";
@@ -55,10 +54,11 @@ function App() {
       })
       .then((data) => {
         console.log('Unsplash API returned:', data);
+        const randImg = Math.floor(Math.random() * 10);
         setPhoto({
-          img: data?.results[0]?.urls?.raw,
-          name: data?.results[0]?.user?.name,
-          username: data?.results[0]?.user?.username,
+          img: data?.results[randImg]?.urls?.raw,
+          name: data?.results[randImg]?.user?.name,
+          username: data?.results[randImg]?.user?.username,
         });
       })
       .catch((error) => console.log(error));
