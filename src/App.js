@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 
-import Link from "./components/Link";
+// import Link from "./components/Link";
 import WeatherData from "./components/WeatherData";
 import SearchBar from "./components/SearchBar";
+import Hero from "./components/Hero";
 
 function App() {
   // States
@@ -88,7 +89,7 @@ function App() {
 
   return (
     <div 
-    style={{backgroundImage: `url(${cloud?.img})`}}
+      style={{backgroundImage: `url(${cloud?.img})`}}
       className={`app 
       flex flex-col justify-center items-center
       min-h-screen w-screen
@@ -105,29 +106,9 @@ function App() {
         bg-slate-300/25
         backdrop-blur-2xl
       ">
-        {/* <div className="search">
-          <input
-            type="text"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-            placeholder="Enter location"
-            className="location_input
-              p-2 
-              border border-solid border-gray-700
-              rounded-md
-            "
-          />
-          <button className="location_searcher
-            p-2 text-white bg-black border-0 rounded-md m-x-2
-            " 
-            onClick={getWeatherImage}
-          >
-            Search Location
-          </button>
-        </div> */}
         <SearchBar getWeatherImage={getWeatherImage} location={location} setLocation={setLocation} />
         <WeatherData weather={weather} />
-        <img className="app__image
+        {/* <img className="app__image
           w-auto 
           rounded-lg
           saturate-150
@@ -145,7 +126,8 @@ function App() {
               Unsplash
             </Link>
           </p>
-        </div>
+        </div> */}
+        <Hero photo={photo} />
       </div>
     </div>
   );
