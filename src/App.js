@@ -76,10 +76,11 @@ function App() {
       })
       .then((data) => {
         console.log('Unsplash API CLOUD returned:', data);
+        const randImg = Math.floor(Math.random() * 10);
         setCloud({
-          img: data?.results[0]?.urls?.raw,
-          name: data?.results[0]?.user?.name,
-          username: data?.results[0]?.user?.username,
+          img: data?.results[randImg]?.urls?.raw,
+          name: data?.results[randImg]?.user?.name,
+          username: data?.results[randImg]?.user?.username,
         });
       })
       .catch((error) => console.log(error));
@@ -91,6 +92,7 @@ function App() {
       className={`app 
       flex flex-col justify-center items-center
       min-h-screen w-screen
+      bg-center bg-cover
     `}>
       <div className="wrapper
         p-6 m-12
@@ -103,7 +105,7 @@ function App() {
         bg-slate-300/25
         backdrop-blur-2xl
       ">
-        <div className="search">
+        {/* <div className="search">
           <input
             type="text"
             value={location}
@@ -122,7 +124,7 @@ function App() {
           >
             Search Location
           </button>
-        </div>
+        </div> */}
         <SearchBar getWeatherImage={getWeatherImage} location={location} setLocation={setLocation} />
         <WeatherData weather={weather} />
         <img className="app__image
