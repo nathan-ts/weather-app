@@ -2,7 +2,7 @@ export default function SearchBar(props) {
   return (
     <form className="search 
         flex 
-        flex-col justify-center border border-black
+        flex-col justify-center items-center
         lg:flex-row lg:justify-between
         space-x-2
         w-full
@@ -18,7 +18,7 @@ export default function SearchBar(props) {
         onChange={(e) => props.setLocation(e.target.value)}
         placeholder="Enter location"
         className="location_input
-          grow
+          grow w-full
           p-2 
           rounded-md
           border border-solid border-gray-700
@@ -27,7 +27,8 @@ export default function SearchBar(props) {
       />
       <input type="submit" 
         className="location_searcher
-          p-2 
+          m-2
+          p-2
           text-white 
           bg-black/75
           border-0 rounded-md m-x-2

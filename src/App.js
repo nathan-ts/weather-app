@@ -150,8 +150,10 @@ function App() {
         p-12
         rounded-xl
         flex flex-col justify-center items-center
-        w-auto h-auto
+        w-full
+        lg:w-auto 
         min-w-2/5
+        h-3/4
         max-h-screen
         shadow-2xl
         bg-slate-100/40
@@ -161,7 +163,7 @@ function App() {
         <WeatherData weather={weather} />
         <Hero photo={photo} />
       </div>
-      <div className="bg-credits fixed bottom-1 right-1 z-50">
+      <div className="bg-credits fixed bottom-4 right-4 z-50">
         <Credits photo={cloud}/>
       </div>
     </div>
