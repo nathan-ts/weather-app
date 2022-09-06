@@ -14,13 +14,13 @@ Please visit [weather.nathantsang.dev](weather.nathantsang.dev) for a live demo 
 
 ## Project Setup
 
-Node version: 16
-
-Install dependences: `npm i`
-
-Run site in dev mode: `npm start`
-
-Create production build: `npm run build`
+- Node version: 16
+- Install dependences: `npm i`
+- Sign up for API keys for [OpenWeather](https://openweathermap.org/home/sign_up) and [Unsplash](https://unsplash.com/join).
+  - Copy the `.env.example` file and rename to `.env`
+  - Update `.env` with your API keys
+- Run site in dev mode: `npm start`
+- Create production build: `npm run build`
 
 ## Tech Stack
 
@@ -29,3 +29,4 @@ Create production build: `npm run build`
 - [Tailwind CSS](https://tailwindcss.com/)
 - [OpenWeather API](https://openweathermap.org/api)
 - [Unsplash API](https://unsplash.com/developers)
+- [Geo IP Lookup](https://geoiplookup.io/)
