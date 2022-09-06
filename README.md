@@ -19,7 +19,7 @@ Please visit [weather.nathantsang.dev](weather.nathantsang.dev) for a live demo 
   - Copy the `.env.example` file and rename to `.env`
   - Update `.env` with your API keys
 - Run site in dev mode: `npm start`
-- Create production build: `npm run build`
+- (Optional) Create production build: `npm run build`
 
 ## Tech Stack
 - [React.js](https://reactjs.org/)
@@ -32,5 +32,3 @@ Please visit [weather.nathantsang.dev](weather.nathantsang.dev) for a live demo 
 
 ## To do
 - Set cookie to save last searched location
-- Fallback to HTML Geolocation API if third-party doesn't work (e.g., adblock)
-- Have unit of measurement for temperature adjust based on location

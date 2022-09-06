@@ -62,25 +62,51 @@ export default function WeatherData(props) {
       <div className="app-data-expanded
         pb-6 w-full
         space-x-5
-        text-black text-lg font-medium
-        flex flex-row justify-center items-center
+        text-black font-medium
+        text-base lg:text-lg 
+        flex flex-row justify-center items-start
+        lg:items-center
       ">
-        <div className="location">
-          <FontAwesomeIcon icon={faLocationDot} />&nbsp;
-          {city}, {country}
+        <div className="location 
+          flex flex-col items-center
+          lg:flex-row 
+        ">
+          <FontAwesomeIcon icon={faLocationDot} />
+          <div className="hidden lg:flex">&nbsp;</div>
+          <div className="text-center">
+            {city}, {country}
+          </div>
         </div>
-        <div className="humidity">
-          <FontAwesomeIcon icon={faDroplet} />&nbsp;
-          {Math.round(props.weather?.main?.humidity)}&nbsp;
-          <FontAwesomeIcon icon={faPercent} />
+        <div className="humidity
+          flex flex-col items-center
+          lg:flex-row 
+        ">
+          <FontAwesomeIcon icon={faDroplet} />
+          <div className="hidden lg:flex">&nbsp;</div>
+          <div className="flex flex-row items-center">
+            {Math.round(props.weather?.main?.humidity)}&nbsp;
+            <FontAwesomeIcon icon={faPercent} />
+          </div>
         </div>
-        <div className="wind-speed">
-          <FontAwesomeIcon icon={faWind} />&nbsp;
-          {Math.round(props.weather?.wind?.speed * 3.6)} km/h
+        <div className="wind-speed 
+          flex flex-col items-center
+          lg:flex-row 
+        ">
+          <FontAwesomeIcon icon={faWind} />
+          <div className="hidden lg:flex">&nbsp;</div>
+          <div className="text-center">
+            {Math.round(props.weather?.wind?.speed * 3.6)}&nbsp;km/h
+          </div>
         </div>
-        <div className="feels-like">
-          <FontAwesomeIcon icon={faComment} />&nbsp;
-          {props.weather?.weather[0]?.description}
+        <div className="feels-like
+          flex flex-col items-center
+          lg:flex-row 
+        ">
+          <FontAwesomeIcon icon={faComment} />
+          <div className="hidden lg:flex">&nbsp;</div>
+          <div className="text-center">
+            {props.weather?.weather[0]?.description}
+          </div>
         </div>
       </div>
       }
