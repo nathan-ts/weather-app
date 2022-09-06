@@ -17,7 +17,15 @@ export default function WeatherData(props) {
   // Set up state for opened or closed expanded weather data
   const [open, setOpen] = useState(false);
 
-  const temperature = props.weather?.main?.temp;
+  // Set up Fahrenheit conversion, if necessary
+  const city = props.weather?.name;
+  const country = props.weather?.sys?.country;
+  const countriesUsingF = ['US', 'BZ', 'BS', 'KY', 'LR', 'PW', 'FM', 'MH'];
+  const tempUnit = countriesUsingF.includes(country) ? 'F' : 'C';
+  
+  const temperature = countriesUsingF.includes(country) ?
+    props.weather?.main?.temp * 9 / 5 + 32: 
+    props.weather?.main?.temp;
 
   // Conditional return based on whether or not weather data is loaded
   if (typeof temperature !== 'number' || Number.isNaN(temperature)) {
@@ -37,7 +45,7 @@ export default function WeatherData(props) {
         </div>
         <p className="temperature">
           <FontAwesomeIcon icon={faTemperatureThreeQuarters} />
-          &nbsp;{Math.round(temperature)}&deg;C
+          &nbsp;{Math.round(temperature)}&deg;{tempUnit}
         </p>
         {!open &&
         <FontAwesomeIcon icon={faAngleDown} className="weather-open-arrow" 
@@ -59,7 +67,7 @@ export default function WeatherData(props) {
       ">
         <div className="location">
           <FontAwesomeIcon icon={faLocationDot} />&nbsp;
-          {props.weather?.name}, {props.weather?.sys?.country}
+          {city}, {country}
         </div>
         <div className="humidity">
           <FontAwesomeIcon icon={faDroplet} />&nbsp;
