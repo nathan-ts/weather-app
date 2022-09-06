@@ -96,12 +96,42 @@ function App() {
         if (res.ok) {
           return res.json();
         } else {
-          throw new Error("Error occurred when fetching geo location");
+          getGeolocation();
+          // throw new Error("Error occurred when fetching geo location");
         }
       })
       .then((locData) => {
         console.log('Geo IP Lookup API returned:', locData);
         setLocation(`${locData.city}, ${locData.region}, ${locData.country_name}`);
+      })
+      .catch((error) => {
+        console.log(error); 
+        // If GeoIPLookup.io is blocked or fails to connect, fall back to Geolocation
+        return getGeolocation();
+      });
+  }
+
+  function getGeolocation() {
+    if (navigator.geolocation) {
+      return navigator.geolocation.getCurrentPosition(getCityByCoords);
+    } 
+    // If geolocation not supported
+    return null;
+  }
+  function getCityByCoords(position) {
+    return fetch(`
+      https://api.openweathermap.org/geo/1.0/reverse?lat=${position.coords.latitude}&lon=${position.coords.longitude}&limit=1&appid=${process.env.REACT_APP_WEATHER}
+    `)
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw new Error("Error occurred when looking up city by coords");
+        }
+      })
+      .then((cityData) => {
+        console.log('OpenWeather Geocode API returned:', cityData);
+        setLocation(`${cityData[0]?.name}, ${cityData[0]?.country}`);
       })
       .catch((error) => console.log(error));
   }
