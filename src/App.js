@@ -15,6 +15,7 @@ function App() {
 
   // Run fetch and remove scroll bar on load
   useEffect(() => {
+    getLocation();
     getWeatherImage();
     getBackgroundImage();
     document.title = 'Weather';
@@ -69,6 +70,7 @@ function App() {
       })
       .then((cloudData) => {
         console.log('Unsplash API CLOUD returned:', cloudData);
+        // Get random image from index 0-9 (since API default is 10 results returned)
         const randImg = Math.floor(Math.random() * 10);
         setCloud({
           img: cloudData?.results[randImg]?.urls?.raw + "&w=2160",
@@ -78,6 +80,27 @@ function App() {
       })
       .catch((error) => console.log(error));
   };
+
+  function getLocation() {
+    // fetch(`
+    //   https://geolocation-db.com/json/
+    // `)
+    fetch(`
+    https://json.geoiplookup.io/
+    `)
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw new Error("Error occurred when fetching background image");
+        }
+      })
+      .then((locData) => {
+        console.log('Geo IP Lookup API returned:', locData);
+        setLocation(`${locData.city}, ${locData.region}, ${locData.country_name}`);
+      })
+      .catch((error) => console.log(error));
+  }
 
   return (
     <div 
@@ -94,10 +117,11 @@ function App() {
         rounded-xl
         flex flex-col justify-center items-center
         w-auto h-auto
+        min-w-2/5
         max-h-screen
         shadow-2xl
         bg-slate-100/25
-        backdrop-blur-2xl
+        backdrop-blur-3xl
       ">
         <SearchBar getWeatherImage={getWeatherImage} location={location} setLocation={setLocation} />
         <WeatherData weather={weather} />

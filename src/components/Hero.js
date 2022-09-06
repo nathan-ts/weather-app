@@ -6,7 +6,6 @@ export default function Hero(props) {
       <img className="app-img
         object-cover
         w-full
-        max-w-3xl
         h-full
         max-h-128
         rounded-lg

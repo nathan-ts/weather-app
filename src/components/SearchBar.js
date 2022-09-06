@@ -1,7 +1,9 @@
 export default function SearchBar(props) {
   return (
     <form className="search 
-        flex flex-row justify-between
+        flex 
+        flex-col
+        lg:flex-row justify-between
         space-x-2
         w-full
       " 

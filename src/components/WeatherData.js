@@ -30,7 +30,7 @@ export default function WeatherData(props) {
     <>
       <div className="app-data
         py-6 px-auto w-full
-        text-black text-2xl
+        text-black text-2xl font-medium
         flex flex-row justify-between items-center
       ">
         <div className="padding p-4">
