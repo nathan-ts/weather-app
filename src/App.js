@@ -15,11 +15,18 @@ function App() {
 
   // Run fetch and remove scroll bar on load
   useEffect(() => {
-    getLocation();
-    getWeatherImage();
-    getBackgroundImage();
     document.title = 'Weather';
     document.body.style.overflow = "hidden";
+    // Chain promises to ensure location is retrieved first before weather
+    getLocation()
+      .then(() => {
+        getWeatherImage();
+      })
+      .then(() => {
+        getBackgroundImage();
+      })
+      .catch((error) => console.log(error));
+    
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -33,7 +40,7 @@ function App() {
       `https://api.unsplash.com/search/photos?query=${location}&client_id=${process.env.REACT_APP_UNSPLASH}`
     );
     // Call Promise.all on both promises, progressing only if both resolve
-    Promise.all([fetchWeather, fetchUnsplash])
+    return Promise.all([fetchWeather, fetchUnsplash])
       .then(([ weatherRes, unsplashRes ]) => {
         if (weatherRes.ok && unsplashRes.ok) {
           return Promise.all([ weatherRes.json(), unsplashRes.json() ]);
@@ -58,7 +65,7 @@ function App() {
   };
 
   function getBackgroundImage() {
-    fetch(
+    return fetch(
       `https://api.unsplash.com/search/photos?query=cloud&client_id=${process.env.REACT_APP_UNSPLASH}`
     )
       .then((res) => {
@@ -82,17 +89,14 @@ function App() {
   };
 
   function getLocation() {
-    // fetch(`
-    //   https://geolocation-db.com/json/
-    // `)
-    fetch(`
+    return fetch(`
     https://json.geoiplookup.io/
     `)
       .then(res => {
         if (res.ok) {
           return res.json();
         } else {
-          throw new Error("Error occurred when fetching background image");
+          throw new Error("Error occurred when fetching geo location");
         }
       })
       .then((locData) => {
