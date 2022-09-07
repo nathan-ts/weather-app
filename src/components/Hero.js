@@ -2,7 +2,6 @@ import Credits from "./Credits";
 
 export default function Hero(props) {
   return (
-    // <div className="flex flex-col justify-center items-center">
     <>
       <img className="app-img
         object-cover
@@ -16,6 +15,5 @@ export default function Hero(props) {
       />
       <Credits photo={props.photo}/>
     </>
-    // </div>
   )
 };
