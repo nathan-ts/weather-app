@@ -10,7 +10,7 @@ To learn about React and API calls.
 
 ## Live Demo
 
-Please visit [weather.nathantsang.dev](weather.nathantsang.dev) for a live demo of the site.
+Please visit [weather.nathantsang.dev](https://weather.nathantsang.dev) for a live demo of the site.
 
 ## Project Setup
 - Node version: 16
