@@ -37,7 +37,7 @@ function App() {
   // Get location if coordinates set and location is blank
   useEffect(() => {
     if (!location) {
-
+      getCityByCoords({ coords });
     }
   }, [coords])
 
@@ -104,9 +104,7 @@ function App() {
 
   // Gets location by IP address (falls back to Geolocation API if IP fails)
   function getLocation() {
-    return fetch(`
-    https://json.geoiplookup.io/
-    `)
+    return fetch(`https://json.geoiplookup.io/`)
       .then(res => {
         if (res.ok) {
           return res.json();
@@ -116,14 +114,14 @@ function App() {
       })
       .then((locData) => {
         console.log('Geo IP Lookup API returned:', locData);
+        setLocation(`${locData.city}, ${locData.region}, ${locData.country_name}`);
         setCoords({
           lat: locData?.latitude,
           lon: locData?.longitude,
         });
-        setLocation(`${locData.city}, ${locData.region}, ${locData.country_name}`);
       })
       .catch((error) => {
-        console.log(error); 
+        console.log(`Error in looking up GeoIPLookup.io, falling back to Geolocation API...\n${error}`); 
         // If GeoIPLookup.io is blocked or fails to connect, fall back to Geolocation
         return getGeolocation();
       });
@@ -137,7 +135,9 @@ function App() {
     // If geolocation not supported
     return null;
   }
+  // Function accepts coordinates and sets the city name
   function getCityByCoords(position) {
+    console.log(`Call citybycoords with args ${JSON.stringify(coords)}`);
     return fetch(`
       https://api.openweathermap.org/geo/1.0/reverse?lat=${position.coords.latitude}&lon=${position.coords.longitude}&limit=1&appid=${process.env.REACT_APP_WEATHER}
     `)
@@ -150,11 +150,11 @@ function App() {
       })
       .then((cityData) => {
         console.log('OpenWeather Geocode API returned:', cityData);
+        setLocation(`${cityData[0]?.name}, ${cityData[0]?.country}`);
         setCoords({
           lat: cityData[0]?.lat,
           lon: cityData[0]?.lon,
         });
-        setLocation(`${cityData[0]?.name}, ${cityData[0]?.country}`);
       })
       .catch((error) => console.log(error));
   }
