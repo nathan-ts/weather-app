@@ -12,6 +12,7 @@ function App() {
   const [location, setLocation] = useState("toronto");
   const [photo, setPhoto] = useState([]);
   const [cloud, setCloud] = useState([]);
+  const [error, setError] = useState('');
 
   // Run fetch and remove scroll bar on load
   useEffect(() => {
@@ -33,7 +34,7 @@ function App() {
   // Get weather and image in separate API calls
   function getWeatherImage() {
     // 1. Set coordinates and city name by city query
-    setCoordsbyCity(location)
+    getCoordsbyCity(location)
       .then((res) => {
         // console.log(`setCoordsbyCity result ${res}: ${res?.name} - ${res?.lat}, ${res?.lon}`)
         if (!res) {
@@ -147,8 +148,8 @@ function App() {
       })
       .catch((error) => console.log(error));
   }
-  // Function accepts city name and sets location and coordinates
-  function setCoordsbyCity(name) {
+  // Function accepts city name and returns coords
+  function getCoordsbyCity(name) {
     // console.log(`Call coords by city with arg '${name}'`);
     return fetch(`
       https://api.openweathermap.org/geo/1.0/direct?q=${name}&limit=1&appid=${process.env.REACT_APP_WEATHER}
@@ -164,10 +165,14 @@ function App() {
         if (!cityData[0]) {
           return Promise.reject("Error occurred when looking up coordinates by city query");
         } 
+        setError('');
         setLocation(`${cityData[0]?.name}, ${cityData[0]?.country}`);
         return cityData[0];
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        setError(`Error: could not find city`);
+        console.log(error);
+      });
   }
 
   return (
@@ -194,6 +199,9 @@ function App() {
         backdrop-blur-3xl
       ">
         <SearchBar getWeatherImage={getWeatherImage} location={location} setLocation={setLocation} />
+        {error && <div className="error-msg text-red-700"> 
+          {error}
+        </div>}
         <WeatherData weather={weather} />
         <Hero photo={photo} />
       </div>
