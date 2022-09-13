@@ -10,10 +10,10 @@ function App() {
   // States
   const [weather, setWeather] = useState({});
   const [location, setLocation] = useState("toronto");
-  const [coords, setCoords] = useState({
-    lat: 43.6534817,
-    lon: -79.3839347
-  });
+  // const [coords, setCoords] = useState({
+  //   lat: 43.6534817,
+  //   lon: -79.3839347
+  // });
   const [photo, setPhoto] = useState([]);
   const [cloud, setCloud] = useState([]);
 
@@ -123,10 +123,10 @@ function App() {
       .then((locData) => {
         console.log('Geo IP Lookup API returned:', locData);
         setLocation(`${locData.city}, ${locData.region}, ${locData.country_name}`);
-        setCoords({
-          lat: locData?.latitude,
-          lon: locData?.longitude,
-        });
+        // setCoords({
+        //   lat: locData?.latitude,
+        //   lon: locData?.longitude,
+        // });
       })
       .catch((error) => {
         console.log(`Error in looking up GeoIPLookup.io, falling back to Geolocation API...\n${error}`); 
@@ -161,10 +161,10 @@ function App() {
           return Promise.reject("Error occurred when looking up city by coords");
         } 
         setLocation(`${cityData[0]?.name}, ${cityData[0]?.country}`);
-        setCoords({
-          lat: cityData[0]?.lat,
-          lon: cityData[0]?.lon,
-        });
+        // setCoords({
+        //   lat: cityData[0]?.lat,
+        //   lon: cityData[0]?.lon,
+        // });
       })
       .catch((error) => console.log(error));
   }
@@ -186,10 +186,10 @@ function App() {
           return Promise.reject("Error occurred when looking up coordinates by city query");
         } 
         setLocation(`${cityData[0]?.name}, ${cityData[0]?.country}`);
-        setCoords({
-          lat: cityData[0]?.lat,
-          lon: cityData[0]?.lon,
-        });
+        // setCoords({
+        //   lat: cityData[0]?.lat,
+        //   lon: cityData[0]?.lon,
+        // });
         return cityData[0];
       })
       .catch((error) => console.log(error));
