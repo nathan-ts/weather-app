@@ -32,9 +32,12 @@ function App() {
 
   // Method to get weather and image in two calls
   function getWeatherImage() {
-    // Set up both promises (fetch API calls)
+    // Set up promises (fetch API calls)
     const fetchWeather = fetch(
       `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${process.env.REACT_APP_WEATHER}&units=metric`
+    );
+    const fetchGeocode = fetch(
+      `https://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=1&appid=${process.env.REACT_APP_WEATHER}`
     );
     const fetchUnsplash = fetch(
       `https://api.unsplash.com/search/photos?query=${location}&client_id=${process.env.REACT_APP_UNSPLASH}`
@@ -49,9 +52,9 @@ function App() {
         }
       })
       .then(([ weatherData, unsplashData ]) => {
-        console.log('OpenWeather API returned:', weatherData);
+        // console.log('OpenWeather API returned:', weatherData);
         setWeather(weatherData);
-        console.log('Unsplash API returned:', unsplashData);
+        // console.log('Unsplash API returned:', unsplashData);
         // Get random image from index 0-9 (since API default is 10 results returned)
         const randImg = Math.floor(Math.random() * 10);
         setPhoto({
