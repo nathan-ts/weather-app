@@ -1,6 +1,6 @@
 # Weather App
 
-This is a simple weather app built in React. 
+This is a simple weather app built in React. Search for a city to see what the current weather is. 
 
 Inspired by [Sonny](https://medium.com/sonny-sangha). 
 
