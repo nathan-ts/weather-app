@@ -22,11 +22,15 @@ export default function WeatherData(props) {
   const country = props.weather?.sys?.country;
   const countriesUsingF = ['US', 'BZ', 'BS', 'KY', 'LR', 'PW', 'FM', 'MH'];
   const tempUnit = countriesUsingF.includes(country) ? 'F' : 'C';
-  const speedUnit = countriesUsingF.includes(country) ? 'mph' : 'km/h';
+  const speedUnit = countriesUsingF.includes(country) ? 'mi/h' : 'km/h';
   
   const temperature = countriesUsingF.includes(country) ?
     props.weather?.main?.temp * 9 / 5 + 32: 
     props.weather?.main?.temp;
+  
+  const speed = countriesUsingF.includes(country) ? 
+    Math.round(props.weather?.wind?.speed * 2.23694) : 
+    Math.round(props.weather?.wind?.speed * 3.6);
 
   // Conditional return based on whether or not weather data is loaded
   if (typeof temperature !== 'number' || Number.isNaN(temperature)) {
@@ -96,7 +100,7 @@ export default function WeatherData(props) {
           <FontAwesomeIcon icon={faWind} />
           <div className="hidden lg:flex">&nbsp;</div>
           <div className="text-center">
-            {Math.round(props.weather?.wind?.speed * 3.6)}&nbsp;km/h
+            {speed}&nbsp;{speedUnit}
           </div>
         </div>
         <div className="feels-like

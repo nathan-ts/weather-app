@@ -37,7 +37,6 @@ function App() {
       .then((res) => {
         // console.log(`setCoordsbyCity result ${res}: ${res?.name} - ${res?.lat}, ${res?.lon}`)
         if (!res) {
-          // throw new Error("Error occurred when looking up coordinates by city query");
           return Promise.reject('Error occurred when looking up coordinates by city query');
         } else {
           // 2. Get weather data by coordinates
