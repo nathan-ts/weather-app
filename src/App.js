@@ -35,26 +35,31 @@ function App() {
   }, []);
 
   // Get location if coordinates set and location is blank
-  useEffect(() => {
-    if (!location) {
-      getCityByCoords({ coords });
-    }
-  }, [coords])
+  // useEffect(() => {
+  //   if (!location) {
+  //     setCityByCoords({ coords });
+  //   }
+  // }, [coords])
 
   // Get weather and image in separate API calls
   function getWeatherImage() {
-    // Set up promises (fetch API calls)
-    const fetchWeather = fetch(
-      `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${process.env.REACT_APP_WEATHER}&units=metric`
-    );
-    const fetchGeocode = fetch(
-      `https://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=1&appid=${process.env.REACT_APP_WEATHER}`
-    );
-    const fetchUnsplash = fetch(
-      `https://api.unsplash.com/search/photos?query=${location}&client_id=${process.env.REACT_APP_UNSPLASH}`
-    );
-    // Call Promise.all on both promises, progressing only if both resolve
-    return Promise.all([fetchWeather, fetchUnsplash])
+    // 1. Set coordinates and city name by city query
+    setCoordsbyCity(location)
+      .then((res) => {
+        console.log(`setCoordsbyCity result: ${res?.name} - ${res?.lat}, ${res?.lon}`)
+        console.log(`Coordinates ${JSON.stringify(coords)} set based on location: ${location}`);
+
+        // 2. Get weather data by coordinates
+        const fetchWeather = fetch(
+          // `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${process.env.REACT_APP_WEATHER}&units=metric`
+          `https://api.openweathermap.org/data/2.5/weather?lat=${coords.lat}&lon=${coords.lon}&appid=${process.env.REACT_APP_WEATHER}&units=metric`
+        );
+        // 3. Get image data by city name
+        const fetchUnsplash = fetch(
+          `https://api.unsplash.com/search/photos?query=${location}&client_id=${process.env.REACT_APP_UNSPLASH}`
+        );
+        return Promise.all([fetchWeather, fetchUnsplash]);
+      })
       .then(([ weatherRes, unsplashRes ]) => {
         if (weatherRes.ok && unsplashRes.ok) {
           return Promise.all([ weatherRes.json(), unsplashRes.json() ]);
@@ -63,9 +68,9 @@ function App() {
         }
       })
       .then(([ weatherData, unsplashData ]) => {
-        // console.log('OpenWeather API returned:', weatherData);
+        console.log('OpenWeather API returned:', weatherData);
         setWeather(weatherData);
-        // console.log('Unsplash API returned:', unsplashData);
+        console.log('Unsplash API returned:', unsplashData);
         // Get random image from index 0-9 (since API default is 10 results returned)
         const randImg = Math.floor(Math.random() * 10);
         setPhoto({
@@ -130,14 +135,14 @@ function App() {
   // Use browser's geolocation API and OpenWeather to lookup city based on coords
   function getGeolocation() {
     if (navigator.geolocation) {
-      return navigator.geolocation.getCurrentPosition(getCityByCoords);
+      return navigator.geolocation.getCurrentPosition(setCityByCoords);
     } 
     // If geolocation not supported
     return null;
   }
-  // Function accepts coordinates and sets the city name
-  function getCityByCoords(position) {
-    console.log(`Call citybycoords with args ${JSON.stringify(coords)}`);
+  // Function accepts coordinates and sets city name and coords
+  function setCityByCoords(position) {
+    console.log(`Call city by coords with args ${JSON.stringify(position)}`);
     return fetch(`
       https://api.openweathermap.org/geo/1.0/reverse?lat=${position.coords.latitude}&lon=${position.coords.longitude}&limit=1&appid=${process.env.REACT_APP_WEATHER}
     `)
@@ -149,12 +154,36 @@ function App() {
         }
       })
       .then((cityData) => {
-        console.log('OpenWeather Geocode API returned:', cityData);
+        console.log('setCityByCoords: OpenWeather Geocode API returned ', cityData);
         setLocation(`${cityData[0]?.name}, ${cityData[0]?.country}`);
         setCoords({
           lat: cityData[0]?.lat,
           lon: cityData[0]?.lon,
         });
+      })
+      .catch((error) => console.log(error));
+  }
+  // Function accepts city name and sets location and coordinates
+  function setCoordsbyCity(name) {
+    console.log(`Call coords by city with arg '${name}'`);
+    return fetch(`
+      https://api.openweathermap.org/geo/1.0/direct?q=${name}&limit=1&appid=${process.env.REACT_APP_WEATHER}
+    `)
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw new Error("Error occurred when looking up coords by city");
+        }
+      })
+      .then((cityData) => {
+        console.log('setCoordsbyCity: OpenWeather Geocode API returned ', cityData[0]);
+        setLocation(`${cityData[0]?.name}, ${cityData[0]?.country}`);
+        setCoords({
+          lat: cityData[0]?.lat,
+          lon: cityData[0]?.lon,
+        });
+        return cityData[0];
       })
       .catch((error) => console.log(error));
   }

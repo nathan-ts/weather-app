@@ -17,11 +17,12 @@ export default function WeatherData(props) {
   // Set up state for opened or closed expanded weather data
   const [open, setOpen] = useState(false);
 
-  // Set up Fahrenheit conversion, if necessary
+  // Set up Imperial conversion, if necessary
   const city = props.weather?.name;
   const country = props.weather?.sys?.country;
   const countriesUsingF = ['US', 'BZ', 'BS', 'KY', 'LR', 'PW', 'FM', 'MH'];
   const tempUnit = countriesUsingF.includes(country) ? 'F' : 'C';
+  const speedUnit = countriesUsingF.includes(country) ? 'mph' : 'km/h';
   
   const temperature = countriesUsingF.includes(country) ?
     props.weather?.main?.temp * 9 / 5 + 32: 
