@@ -199,7 +199,7 @@ function App() {
         backdrop-blur-3xl
       ">
         <SearchBar getWeatherImage={getWeatherImage} location={location} setLocation={setLocation} />
-        {error && <div className="error-msg text-red-700"> 
+        {error && <div className="error-msg text-lg font-semibold text-red-600"> 
           {error}
         </div>}
         <WeatherData weather={weather} />
