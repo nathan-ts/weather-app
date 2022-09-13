@@ -10,6 +10,10 @@ function App() {
   // States
   const [weather, setWeather] = useState({});
   const [location, setLocation] = useState("toronto");
+  const [coords, setCoords] = useState({
+    lat: 43.6534817,
+    lon: -79.3839347
+  });
   const [photo, setPhoto] = useState([]);
   const [cloud, setCloud] = useState([]);
 
@@ -30,7 +34,14 @@ function App() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Method to get weather and image in two calls
+  // Get location if coordinates set and location is blank
+  useEffect(() => {
+    if (!location) {
+
+    }
+  }, [coords])
+
+  // Get weather and image in separate API calls
   function getWeatherImage() {
     // Set up promises (fetch API calls)
     const fetchWeather = fetch(
@@ -79,7 +90,7 @@ function App() {
         }
       })
       .then((cloudData) => {
-        console.log('Unsplash API CLOUD returned:', cloudData);
+        // console.log('Unsplash API CLOUD returned:', cloudData);
         // Get random image from index 0-9 (since API default is 10 results returned)
         const randImg = Math.floor(Math.random() * 10);
         setCloud({
@@ -91,6 +102,7 @@ function App() {
       .catch((error) => console.log(error));
   };
 
+  // Gets location by IP address (falls back to Geolocation API if IP fails)
   function getLocation() {
     return fetch(`
     https://json.geoiplookup.io/
@@ -100,11 +112,14 @@ function App() {
           return res.json();
         } else {
           getGeolocation();
-          // throw new Error("Error occurred when fetching geo location");
         }
       })
       .then((locData) => {
         console.log('Geo IP Lookup API returned:', locData);
+        setCoords({
+          lat: locData?.latitude,
+          lon: locData?.longitude,
+        });
         setLocation(`${locData.city}, ${locData.region}, ${locData.country_name}`);
       })
       .catch((error) => {
@@ -114,6 +129,7 @@ function App() {
       });
   }
 
+  // Use browser's geolocation API and OpenWeather to lookup city based on coords
   function getGeolocation() {
     if (navigator.geolocation) {
       return navigator.geolocation.getCurrentPosition(getCityByCoords);
@@ -134,6 +150,10 @@ function App() {
       })
       .then((cityData) => {
         console.log('OpenWeather Geocode API returned:', cityData);
+        setCoords({
+          lat: cityData[0]?.lat,
+          lon: cityData[0]?.lon,
+        });
         setLocation(`${cityData[0]?.name}, ${cityData[0]?.country}`);
       })
       .catch((error) => console.log(error));
