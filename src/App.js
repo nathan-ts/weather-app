@@ -48,7 +48,8 @@ function App() {
       .then((res) => {
         console.log(`setCoordsbyCity result ${res}: ${res?.name} - ${res?.lat}, ${res?.lon}`)
         if (!res) {
-          throw new Error("Error occurred when looking up coordinates by city query");
+          // throw new Error("Error occurred when looking up coordinates by city query");
+          return Promise.reject('Error occurred when looking up coordinates by city query');
         } else {
           // console.log(`Coordinates ${JSON.stringify(coords)} set based on location: ${location}`);
   
@@ -67,9 +68,8 @@ function App() {
       .then(([ weatherRes, unsplashRes ]) => {
         if (weatherRes.ok && unsplashRes.ok) {
           return Promise.all([ weatherRes.json(), unsplashRes.json() ]);
-        } else {
-          throw new Error("Error occurred when fetching weather/unsplash");
         }
+        return Promise.reject("Error occurred when fetching weather/unsplash");
       })
       .then(([ weatherData, unsplashData ]) => {
         console.log('OpenWeather API returned:', weatherData);
@@ -94,9 +94,8 @@ function App() {
       .then((res) => {
         if (res.ok) {
           return res.json();
-        } else {
-          throw new Error("Error occurred when fetching background image");
-        }
+        } 
+        return Promise.reject("Error occurred when fetching background image");
       })
       .then((cloudData) => {
         // console.log('Unsplash API CLOUD returned:', cloudData);
@@ -153,12 +152,14 @@ function App() {
       .then(res => {
         if (res.ok) {
           return res.json();
-        } else {
-          throw new Error("Error occurred when looking up city by coords");
         }
+        return Promise.reject("Error occurred when looking up city by coords");
       })
       .then((cityData) => {
         console.log('setCityByCoords: OpenWeather Geocode API returned ', cityData);
+        if (!cityData[0]) {
+          return Promise.reject("Error occurred when looking up city by coords");
+        } 
         setLocation(`${cityData[0]?.name}, ${cityData[0]?.country}`);
         setCoords({
           lat: cityData[0]?.lat,
@@ -176,22 +177,20 @@ function App() {
       .then(res => {
         if (res.ok) {
           return res.json();
-        } else {
-          throw new Error("Not OK: Error occurred when looking up coordinates by city query");
-        }
+        } 
+        return Promise.reject("Not OK: Error occurred when looking up coordinates by city query")
       })
       .then((cityData) => {
         console.log('setCoordsbyCity: OpenWeather Geocode API returned ', cityData[0]);
-        if (!cityData) {
-          throw new Error("Error occurred when looking up coordinates by city query");
-        } else {
-          setLocation(`${cityData[0]?.name}, ${cityData[0]?.country}`);
-          setCoords({
-            lat: cityData[0]?.lat,
-            lon: cityData[0]?.lon,
-          });
-          return cityData[0];
-        }
+        if (!cityData[0]) {
+          return Promise.reject("Error occurred when looking up coordinates by city query");
+        } 
+        setLocation(`${cityData[0]?.name}, ${cityData[0]?.country}`);
+        setCoords({
+          lat: cityData[0]?.lat,
+          lon: cityData[0]?.lon,
+        });
+        return cityData[0];
       })
       .catch((error) => console.log(error));
   }
