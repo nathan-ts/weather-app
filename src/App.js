@@ -46,19 +46,23 @@ function App() {
     // 1. Set coordinates and city name by city query
     setCoordsbyCity(location)
       .then((res) => {
-        console.log(`setCoordsbyCity result: ${res?.name} - ${res?.lat}, ${res?.lon}`)
-        console.log(`Coordinates ${JSON.stringify(coords)} set based on location: ${location}`);
-
-        // 2. Get weather data by coordinates
-        const fetchWeather = fetch(
-          // `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${process.env.REACT_APP_WEATHER}&units=metric`
-          `https://api.openweathermap.org/data/2.5/weather?lat=${coords.lat}&lon=${coords.lon}&appid=${process.env.REACT_APP_WEATHER}&units=metric`
-        );
-        // 3. Get image data by city name
-        const fetchUnsplash = fetch(
-          `https://api.unsplash.com/search/photos?query=${location}&client_id=${process.env.REACT_APP_UNSPLASH}`
-        );
-        return Promise.all([fetchWeather, fetchUnsplash]);
+        console.log(`setCoordsbyCity result ${res}: ${res?.name} - ${res?.lat}, ${res?.lon}`)
+        if (!res) {
+          throw new Error("Error occurred when looking up coordinates by city query");
+        } else {
+          // console.log(`Coordinates ${JSON.stringify(coords)} set based on location: ${location}`);
+  
+          // 2. Get weather data by coordinates
+          const fetchWeather = fetch(
+            // `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${process.env.REACT_APP_WEATHER}&units=metric`
+            `https://api.openweathermap.org/data/2.5/weather?lat=${res?.lat}&lon=${res?.lon}&appid=${process.env.REACT_APP_WEATHER}&units=metric`
+          );
+          // 3. Get image data by city name
+          const fetchUnsplash = fetch(
+            `https://api.unsplash.com/search/photos?query=${location}&client_id=${process.env.REACT_APP_UNSPLASH}`
+          );
+          return Promise.all([fetchWeather, fetchUnsplash]);
+        }
       })
       .then(([ weatherRes, unsplashRes ]) => {
         if (weatherRes.ok && unsplashRes.ok) {
@@ -173,17 +177,21 @@ function App() {
         if (res.ok) {
           return res.json();
         } else {
-          throw new Error("Error occurred when looking up coords by city");
+          throw new Error("Not OK: Error occurred when looking up coordinates by city query");
         }
       })
       .then((cityData) => {
         console.log('setCoordsbyCity: OpenWeather Geocode API returned ', cityData[0]);
-        setLocation(`${cityData[0]?.name}, ${cityData[0]?.country}`);
-        setCoords({
-          lat: cityData[0]?.lat,
-          lon: cityData[0]?.lon,
-        });
-        return cityData[0];
+        if (!cityData) {
+          throw new Error("Error occurred when looking up coordinates by city query");
+        } else {
+          setLocation(`${cityData[0]?.name}, ${cityData[0]?.country}`);
+          setCoords({
+            lat: cityData[0]?.lat,
+            lon: cityData[0]?.lon,
+          });
+          return cityData[0];
+        }
       })
       .catch((error) => console.log(error));
   }
